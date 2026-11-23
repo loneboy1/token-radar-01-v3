@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Launch Scope v3 — Token Launch Radar</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="masthead">
+  <div>
+    <h1>Launch Scope <span class="v">v3</span></h1>
+    <p class="sub">A token launch radar. Every pre-token launch candidate ranked by its expected
+    launch value — a fitted token value times the odds a token ever lists, both computed
+    from the snapshot's own figures. No protocol is named by hand; the board is whatever
+    the figures say.</p>
+  </div>
+  <div class="kpi" id="kpi"></div>
+</header>
+
+<section class="cover" id="cover" aria-label="How this board was built">
+  <h2>How to read this board</h2>
+  <ol>
+    <li><b>Value, fitted — not picked.</b> log(market cap) is fitted by least squares on the
+    protocols whose token already trades. The coefficients come from the snapshot, and the
+    fit is tested held-out two ways (leave-one-out and walk-forward). The numbers are on
+    the strip above.</li>
+    <li><b>Odds from peers.</b> A protocol's odds of ever listing are the rate at which
+    protocols in its own age-and-size cohort already record a token.</li>
+    <li><b>Verdict first.</b> Every row opens with FARM, THIN or SKIP — the $/hour of farming
+    it at $10,000, after gas and the forgone yield. Detail first, model second.</li>
+    <li><b>Nothing is hidden.</b> All 758 protocols in the snapshot are accounted for below:
+    ranked, live at market value, token-recorded with no price, or excluded with a reason.</li>
+  </ol>
+  <p class="fine" id="integrity"></p>
+</section>
+
+<nav class="filters" aria-label="Filter the board">
+  <input id="q" type="search" placeholder="Search name, slug or category" autocomplete="off">
+  <select id="verdict" aria-label="Verdict">
+    <option value="">All verdicts</option>
+    <option value="FARM">FARM</option>
+    <option value="THIN">THIN</option>
+    <option value="SKIP">SKIP</option>
+  </select>
+  <select id="category" aria-label="Category">
+    <option value="">All categories</option>
+  </select>
+  <select id="sort" aria-label="Sort">
+    <option value="rank">Sort: rank</option>
+    <option value="ev">Sort: expected value</option>
+    <option value="odds">Sort: odds</option>
+    <option value="usd">Sort: $/hour</option>
+    <option value="tvl">Sort: TVL</option>
+  </select>
+  <span class="count" id="count"></span>
+</nav>
+
+<main>
+  <section id="boardwrap">
+    <table id="board">
+      <thead><tr>
+        <th data-k="rank">#</th><th data-k="name">Protocol</th><th data-k="verdict">Verdict</th>
+        <th data-k="ev">Expected value</th><th data-k="odds">Odds</th><th data-k="fitted">Fitted value</th>
+        <th data-k="usd">$/hour @ $10k</th><th data-k="tvl">TVL</th><th data-k="age">Age</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+
+  <section id="detail" hidden aria-label="Protocol detail"></section>
+
+  <section id="matrixwrap" hidden aria-label="Farm matrix"></section>
+
+  <section id="live" aria-label="Live tokens"></section>
+
+  <section id="accounting" aria-label="Accounting"></section>
+</main>
+
+<footer>
+  <p>Launch Scope v3. Snapshot: DefiLlama, frozen. A protocol is said to record no token,
+  never to have none. Farm figures are estimates from stated assumptions, not promises.</p>
+</footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
